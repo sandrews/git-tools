@@ -14,13 +14,13 @@ import requests
 page=1
 notDone=True
 
-user='user_name'
+user='username'
 pwd='mySecretPassword'
 
 while notDone:
     url = 'https://api.bitbucket.org/2.0/repositories/{}?page={}'.format(user, page)
     response = requests.get(url, auth=(user, pwd))
-    page=page+1
+    page += 1 
 
     try:
         sid=response.json()['values'][0]['links']
@@ -32,6 +32,6 @@ while notDone:
         try:
             href=response.json()['values'][valueArr]['links']['clone'][1]['href']
             print('git clone ' + href)
-            valueArr=valueArr+1
+            valueArr += 1 
         except IndexError:
             break
