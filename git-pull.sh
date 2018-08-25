@@ -10,6 +10,14 @@
 
 # git pull fetches the latest changes of the current branch from a remote and applies those changes to your local copy of the branch. Generally this is done by merging, i.e. the local changes are merged into the remote changes. So git pull is similar to git fetch & git merge.
 
-bitbucketRoot='/root/path/to/where/the/projects/lives'
+gitRoot='/git/root/folder'
 
-for d in `ls -d -- ${bitbucketRoot}/*/`; do echo Updating $d ;  git -C ${bitbuketRoot}/$d pull ; done
+for d in `ls -d -- ${gitRoot}/*/ 2> /dev/null`; 
+do
+	(NL=$'\n'
+	GITOUT="Trying to Pull :  ${d}"
+	GITOUT=${GITOUT}${NL}"$(git -C ${d} pull --quiet 2>&1)"
+        GITOUT=${GITOUT}${NL}"-----> Completed"${NL}
+	echo "${GITOUT}") & 
+done
+wait
